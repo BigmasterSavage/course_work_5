@@ -4,7 +4,7 @@ from request_job import HH_API
 from db_manager import DBManager
 
 
-def create_db(companys, dbname, user, password, host, port):
+def create_db(companys: dict, dbname: str, user: str, password: str, host: str, port: int):
     try:
         #Создаем таблицу
         data_base = DBManager(dbname=dbname, user=user, password=password, host=host, port=port)

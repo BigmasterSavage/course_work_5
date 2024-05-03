@@ -2,7 +2,7 @@ import psycopg2
 
 
 class DBManager:
-    def __init__(self, dbname, user, password, host, port):
+    def __init__(self, dbname: str, user: str, password: str, host: str, port: int):
         self.conn = psycopg2.connect(
             dbname=dbname,
             user=user,
@@ -35,7 +35,7 @@ class DBManager:
         ''')
         self.conn.commit()
 
-    def add_company(self, company_id, company_name, company_url):
+    def add_company(self, company_id: int, company_name: str, company_url: str):
         cursor = self.conn.cursor()
         cursor.execute('''
             INSERT INTO companies (id, name, url)
@@ -43,7 +43,7 @@ class DBManager:
         ''', (company_id, company_name, company_url))
         self.conn.commit()
 
-    def add_vacancy(self, id, company_id, name, responsibility, requirement, salary_from, salary_to, link, experience_required):
+    def add_vacancy(self, id: int, company_id: int, name: str, responsibility: str, requirement: str, salary_from: float, salary_to: float, link: str, experience_required: str):
         cursor = self.conn.cursor()
         cursor.execute('''
             INSERT INTO vacancies (id, company_id, name, responsibility, requirement, salary_from, salary_to, link, experience_required)
@@ -89,7 +89,7 @@ class DBManager:
         ''', (avg_salary,))
         return cursor.fetchall()
 
-    def get_vacancies_with_keyword(self, keyword):
+    def get_vacancies_with_keyword(self, keyword: str):
         cursor = self.conn.cursor()
         cursor.execute('''
             SELECT companies.name, vacancies.name, vacancies.salary_from, vacancies.salary_to, vacancies.link
@@ -102,12 +102,3 @@ class DBManager:
     def close_connection(self):
         self.conn.close()
 
-
-try:
-    db = DBManager(dbname="hh",
-                   user="postgresql",
-                   password="Touch12345",
-                   host="localhost",
-                   port=5232)
-except:
-    print("Doesnt connect")
